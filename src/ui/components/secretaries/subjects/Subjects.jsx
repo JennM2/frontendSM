@@ -40,7 +40,6 @@ const Subjects = () => {
     const [openModalEnableSubject, setOpenModalEnableSubject] = useState(false);
     const [openModalEditSubject, setOpenModalEditSubject] = useState(false);
     const [openModalStudentList, setOpenModalStudentList] = useState(false);
-    const [editingRow, setEditingRow] = useState(null);
     const [editedId, setEditedId] = useState('');
 
     const [career, setCareer] = useState('');
@@ -115,7 +114,7 @@ const Subjects = () => {
         }
         setYears(yearsArray);
     }
-    useEffect(loadDataYear,[career])
+    useEffect(loadDataYear,[career, careers])
 
 
     useEffect(() => {
@@ -206,10 +205,6 @@ const Subjects = () => {
         ///handleOpenModalEnable(false);
         ///handleStates();
 
-    };
-    const handleInputChangeEdit = (id, newValue) => {
-        const updatedRow = { ...editingRow, [id]: newValue };
-        setEditingRow(updatedRow);
     };
 
     const handleEditClick = (rowId,specific) => {

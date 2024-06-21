@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import useStyles from './Forms.style';
 import user from '../../../assets/icons/userLog.svg';
 

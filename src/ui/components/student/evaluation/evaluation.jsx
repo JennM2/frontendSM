@@ -6,10 +6,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import scheduleIcon from "../../../../assets/icons/schedule.svg";
 import modalStyles from "../../Modal.style";
-import DynamicInputsDisabled from "../../forms/DynamicInputsDisabled";
 import DynamicInputs from "../../forms/DynamicInputs";
 
-import CredentialsDisabledUser from "../../forms/CredentialsDisabledUser";
 import ButtonSM from "../../forms/ButtonSM";
 import cancelIcon from "../../../../assets/icons/cancel.svg";
 import editIconW from "../../../../assets/icons/editLight.svg";
@@ -78,7 +76,7 @@ const Evaluation = () => {
     setQuestionValues({...questionValues, [id]:value});
   }
 
-  useEffect(loadData,[])
+  useEffect(loadData,[token.idStudent])
 
   if(modalEvaluation){
     return (

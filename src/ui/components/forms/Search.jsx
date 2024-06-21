@@ -2,12 +2,7 @@ import search from '../../../assets/icons/search.svg'
 import useStyles from './Forms.style'
 const Search = ({text, onSearch, type='text', values, placeholder}) => {
     const classes = useStyles();
-    const months= [
-        'Enero', 'Febrero', 'Marzo', 
-        'Abril', 'Mayo', 'Junio', 
-        'Julio', 'Agosto', 'Septiembre', 
-        'Octubre', 'Noviembre', 'Diciembre'];
-    
+
     const setValue = (e) => {
         onSearch(e.target.value);
     }

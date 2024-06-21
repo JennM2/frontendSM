@@ -40,7 +40,6 @@ const ActiveSubjects = () => {
   const [dataStudents, setDataStudents] = useState([]);
   const [dataListStudents, setDataListStudents] = useState([]);
   const [subject, setSubject] = useState("");
-  const [subjectList, setSubjectList] = useState('');
   const [openModalStudentList, setOpenModalStudentList] = useState(false);
 
 
@@ -59,7 +58,7 @@ const ActiveSubjects = () => {
   } 
         
 
-  useEffect(loadData, []);
+  useEffect(loadData, [token.idTeacher]);
 
   const [openModalQualifications, setOpenModalQualifications] = useState(false);
 
@@ -284,7 +283,6 @@ const ActiveSubjects = () => {
 
   const handleOpenStudentList = async(rowId) => {
     const idEnable = data[rowId].idEnable;
-    setSubjectList(`${data[rowId].subject} - ${data[rowId].month}`);
     loadDataListStudents(idEnable);
     setOpenModalStudentList(!openModalStudentList);
 };

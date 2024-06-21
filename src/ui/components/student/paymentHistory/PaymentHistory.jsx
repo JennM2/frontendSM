@@ -24,7 +24,7 @@ const PaymentHitory = () => {
     })
   }
 
-  useEffect(loadData,[])
+  useEffect(loadData,[token.idStudent])
 
 
   return (

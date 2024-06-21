@@ -37,7 +37,7 @@ export const Root = () => {
                     break;
             }
         }
-    },[])
+    },[location.pathname, navigator])
 
     return (
         <div style={{width:'100vw'}}>

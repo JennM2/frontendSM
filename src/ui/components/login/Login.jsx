@@ -7,7 +7,6 @@ import signIn from '../../../assets/icons/signinLog.svg';
 import { useState } from 'react';
 import Axios from 'axios';
 import { useNavigate } from "react-router-dom"
-import { useSnackbar, enqueueSnackbar } from 'notistack';
 
 const Login = () => {
   const classes = useStyles();

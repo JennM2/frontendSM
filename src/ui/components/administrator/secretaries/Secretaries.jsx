@@ -24,7 +24,6 @@ const Secretaries = () => {
   const modalClasses = modalStyles();
   const [isClick, setIsClick] = useState(false);
   const [isDeleteDialog, setIsDeleteDialog] = useState(false);
-  const [idDelete, setIdDelete] = useState("");
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [editingRow, setEditingRow] = useState(null);
   const [editedId, setEditedId] = useState("");
@@ -40,7 +39,6 @@ const Secretaries = () => {
   const [passwordSecretary, setPasswordSecretary] = useState("");
   const [data, setData] = useState([]);
   const [fullNameToDelete, setFullNameToDelete] = useState("");
-  const [secretaryNames, setSecretaryNames] = useState({});
 
   //obtener todos los datos de los secretarios
 

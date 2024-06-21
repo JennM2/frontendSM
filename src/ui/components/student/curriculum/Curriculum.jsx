@@ -47,7 +47,7 @@ const Curriculum = () => {
 
 
 
-  useEffect(loadData,[]);
+  useEffect(loadData,[token.idCareer]);
 
  
   return (

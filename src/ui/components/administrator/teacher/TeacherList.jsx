@@ -40,8 +40,6 @@ const TeacherList = () => {
   const [assignSurnameP, setAssignSurnameP] = useState("");
   const [assignSurnameM, setAssignSurnameM] = useState("");
   const [assignId, setAssignId] = useState("");
-  const [dataAssignName, setDataAssignName] = useState([]);
-  const [newDataAssign, setNewDataAssign] = useState([]);
 
   const [dataAssign, setDataAssign] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
@@ -50,7 +48,7 @@ const TeacherList = () => {
   const [subjects, setSubjects] = useState([]);
   const [selectedCareer, setSelectedCareer] = useState("");
   const [selectedYear, setSelectedYear] = useState(0);
-  const [stateUser, setStateUser] = useState("");
+  const [, setStateUser] = useState("");
 
   const [surnamePTeacher, setSurnamePTeacher] = useState("");
   const [surnameMTeacher, setSurnameMTeacher] = useState("");
@@ -95,7 +93,7 @@ const TeacherList = () => {
       yearsArray.push(index);
     }
     setYears(yearsArray);
-  },[selectedCareer])
+  },[selectedCareer, careers])
 
   const handleCareerChange = (event) => {
     setSelectedCareer(event.target.value);
@@ -314,6 +312,7 @@ const TeacherList = () => {
         break;
       case "phoneTeacher":
         setPhoneTeacher(newValue);
+        break;
       case "stateUser":
         setStateUser(newValue);
         break;
@@ -417,17 +416,7 @@ const TeacherList = () => {
       enqueueSnackbar("¡Faltan campos por seleccionar!",{variant:'warning'});
     }
   };
-  const handleSaveAssignment = () => {
-    const newData = {
-      idTeacher : assignId,
-      newAssign : newDataAssign
-    }
-    setNewDataAssign([]);
-    setSelectedCareer("");
-    setSelectedYear("");
-    setSelectedSubject("");
-    setIsModalAssingOpen(!isModalAssingOpen);
-  };
+  
   if (isDeleteDialog) {
     return (
       <div className={modalClasses.total}>

@@ -17,7 +17,6 @@ import alertIcon from "../../../../assets/images/alert.svg";
 import editIconW from "../../../../assets/icons/editLight.svg";
 import closeArrow from "../../../../assets/icons/arrow.svg";
 import openArrow from "../../../../assets/icons/arrow2.svg";
-import deleteTeacher from "../../../../assets/icons/delete.svg";
 import { enqueueSnackbar } from "notistack";
 
 const Careers = () => {

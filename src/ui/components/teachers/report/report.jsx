@@ -50,7 +50,7 @@ const Report = () => {
 
 
         if(searchTermSubject){
-            setSubjectName(dataSubject.find(item=>item.idEnable == searchTermSubject).subject);
+            setSubjectName(dataSubject.find(item=>item.idEnable === searchTermSubject).subject);
 
             console.log(searchTermSubject);
             Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/programming//allStudents/${searchTermSubject}`).then(response => {
@@ -60,7 +60,7 @@ const Report = () => {
               })}
         }
     
-    useEffect(loadStudents,[searchTermSubject])
+    useEffect(loadStudents,[searchTermSubject, dataSubject])
 
     const loadDataSubjects = () => {
         if(searchTermMonth){
@@ -72,7 +72,7 @@ const Report = () => {
           })}
     }
 
-    useEffect(loadDataSubjects,[searchTermMonth]);
+    useEffect(loadDataSubjects,[searchTermMonth, token.idTeacher]);
 
     const tableRef = useRef(null);
     const currentDate = new Date();

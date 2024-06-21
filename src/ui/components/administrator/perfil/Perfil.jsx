@@ -7,13 +7,12 @@ import perfilPicture from "../../../../assets/icons/UserPerfil.svg";
 import { ReactComponent as EditIcon } from "../../../../assets/icons/edit.svg";
 import CredentialsDisabled from "../../forms/CredentialsDisabled";
 import DynamicInputsDisabled from "../../forms/DynamicInputsDisabled";
-import user from "../../../../assets/icons/userLog.svg";
 
 const Perfil = ({ nameUser }) => {
   const classes = useStyles();
   const adminClasses = adminStyles();
-  const [hover, setHover] = useState(false);
-  const [image, setImage] = useState(perfilPicture);
+  const [hover] = useState(false);
+  const [image] = useState(perfilPicture);
   const [data, setData] = useState({});
 
 const token = JSON.parse(localStorage.getItem('credentialSM'));
@@ -29,7 +28,7 @@ const token = JSON.parse(localStorage.getItem('credentialSM'));
       });
   }
 
-  useEffect(loadData,[]);
+  useEffect(loadData,[token.idUser]);
 
   const fieldsf = [
     {

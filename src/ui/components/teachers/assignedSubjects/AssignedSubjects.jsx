@@ -36,7 +36,7 @@ const AssignedSubjects = () => {
           }
         };
         fetchData();
-      }, []);
+      }, [token.idTeacher]);
 
 
     return (

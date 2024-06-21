@@ -28,7 +28,6 @@ const Users = () => {
 
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [editingRow, setEditingRow] = useState(null);
-  const [editedId, setEditedId] = useState("");
 
   const options = [
     { label: "deshabilitado", value: "deshabilitado" },
@@ -102,7 +101,6 @@ const Users = () => {
     };
     setIsModalEditOpen(true);
     setEditingRow(editingRow);
-    setEditedId(row[0]);
   };
 
   const handleEditSave = () => {

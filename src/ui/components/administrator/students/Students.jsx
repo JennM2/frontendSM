@@ -11,7 +11,6 @@ import DynamicInputs from "../../forms/DynamicInputs";
 import Credentials from "../../forms/Credentials";
 import newStudent from "../../../../assets/icons/newUser.svg";
 import editStudent from "../../../../assets/icons/edit.svg";
-import deleteStudent from "../../../../assets/icons/delete.svg";
 import qualification from "../../../../assets/icons/qualification.svg";
 import saveIcon from "../../../../assets/icons/save.svg";
 import cancelIcon from "../../../../assets/icons/cancel.svg";
@@ -58,7 +57,7 @@ const Students = () => {
   const [idDelete, setIdDelete] = useState("");
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [editingRow, setEditingRow] = useState(null);
-  const [editedId, setEditedId] = useState("");
+  const [, setEditedId] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
   
@@ -122,7 +121,6 @@ const Students = () => {
   }
   useEffect(loadData, []);
 
-  const [carreras, setCarreras] = useState("");
 
   const fieldsC1 = [
     {

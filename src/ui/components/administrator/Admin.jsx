@@ -33,7 +33,6 @@ const Admin = () => {
 
     const [selectedOption, setSelectedOption] = useState();
 
-    const [selectedImage, setSelectedImage] = useState(user);
     const [nameUser] = useState("Administrador");
 
 
@@ -124,7 +123,7 @@ const Admin = () => {
         <div>
             <div className={classes.top}>
                 <Logo />
-                <User userPerfil={selectedImage} nameUser={token.fullName} rol={'Administrador'}/>
+                <User userPerfil={user} nameUser={token.fullName} rol={'Administrador'}/>
             </div>
             <div className={classes.second}>
                 <div className={classes.menu}>

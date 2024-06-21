@@ -43,7 +43,7 @@ const Qualification = () => {
             console.log(error);
         });
     }
-    useEffect(loadData,[]);
+    useEffect(loadData,[token.idStudent]);
 
     return (
         <>

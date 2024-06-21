@@ -34,7 +34,7 @@ const SubjectsCareers = () => {
   const [selectedCareer, setSelectedCareer] = useState("");
   const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState("");
-  const [stateSubject, setStateSubject] = useState("");
+  const [, setStateSubject] = useState("");
 
   const [subject, setSubject] = useState("");
   const [code, setCode] = useState("");

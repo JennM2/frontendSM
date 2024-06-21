@@ -32,7 +32,7 @@ import Report from "../ui/components/teachers/report/report";
 export const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="" element={<Root />}>
-      <Route path="/admin" element={<Admin />}>
+      <Route path="/admin/*" element={<Admin />}>
         <Route path="perfil" element={<Perfil nameUser={"Administrador"} />} />
         <Route path="users" element={<Users />} />
         <Route path="careers" element={<Careers />} />
@@ -43,20 +43,20 @@ export const routes = createBrowserRouter(
         <Route path="students" element={<Students />} />
         <Route path="backups" element={<Backups />} />
       </Route>
-      <Route path="/secretary" element={<Secretaries />}>
+      <Route path="/secretary/*" element={<Secretaries />}>
         <Route path="perfil" element={<Perfil nameUser={"Secretary"} />} />
         <Route path="subjects" element={<Subjects />} />
         <Route path="payments" element={<Payments />} />
         <Route path="notifications" element={<Notifications />} />
       </Route>
-      <Route path="/teacher" element={<Teachers />}>
+      <Route path="/teacher/*" element={<Teachers />}>
         <Route path="perfil" element={<Perfil nameUser={"Teacher"} />} />
         <Route path="assignedSubjects" element={<AssignedSubjects />} />
         <Route path="activeSubjects" element={<ActiveSubjects />} />
         <Route path="report" element={<Report />} />
 
       </Route>
-      <Route path="/student" element={<Student />}>
+      <Route path="/student/*" element={<Student />}>
         <Route path="perfil" element={<Perfil nameUser={"Student"} />} />
         <Route path="qualifications" element={<Qualification />} />
         <Route path="curriculum" element={<Curriculum />} />

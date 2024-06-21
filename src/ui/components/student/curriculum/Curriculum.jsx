@@ -28,6 +28,7 @@ const Curriculum = () => {
 
 
   const loadData = () => {
+    console.log('carga de datos');
     Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/careers/pensum/${token.idCareer}`).then(response=>{
       let dataYears = [];
       let dataToogles = [];

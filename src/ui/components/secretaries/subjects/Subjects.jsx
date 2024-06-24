@@ -17,6 +17,8 @@ import deletIconW from '../../../../assets/icons/deleteW.svg';
 import enableIcon from '../../../../assets/icons/enable.svg';
 import editIcon from '../../../../assets/icons/editLight.svg';
 import reportList from '../../../../assets/icons/reports.svg';
+import reportIcon from '../../../../assets/icons/reports.svg';
+
 
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
@@ -333,6 +335,61 @@ const Subjects = () => {
         setOpenModalStudentList(!openModalStudentList);
     };
 
+    const tableRefSubjects = useRef(null);
+    const handleGenerateReport = () => {
+        const doc = new jsPDF('l');
+        doc.setFontSize(16);
+        doc.addFont(poppins, 'Poppins', 'normal');
+        doc.setFont('Poppins');
+        doc.addImage(logo, 'SVG', 10, 9, 20, 20);
+        doc.setFontSize(10);
+        doc.setTextColor(39, 103, 158);
+        doc.text('Instituto Técnico', 33, 18);
+        doc.setFontSize(14);
+        doc.text('SAN MARTIN', 33, 23);
+        doc.setFontSize(10);
+        doc.text('Fecha', 260, 20);
+        doc.text(formattedDate, 247, 25);
+        doc.setFontSize(20);
+        doc.setTextColor(17, 45, 94);
+        doc.setFont('Helvetica');
+        doc.text('Reporte de materias habilitadas', 108, 45);
+        doc.setFontSize(14);
+        doc.setTextColor(39, 103, 158);
+        doc.text(`Gestion: ${searchTerm}`,20,60);
+        doc.setLineWidth(0.5);
+        doc.setDrawColor(39, 103, 158);
+        const startY = 70;
+        const endY = 70;
+        const tableWidth = doc.internal.pageSize.width - 25;
+        doc.line(12, startY, tableWidth, endY);
+
+        if (tableRefSubjects.current) {
+
+            doc.autoTable({
+                html: tableRefSubjects.current,
+                startY: 70,
+                theme: 'plain',
+                headStyles: {
+                    textColor: [39, 103, 158],
+                    fontSize: 10,
+                },
+                styles: {
+                    fontSize: 8,
+                    cellPadding: 2,
+                    rowHeight: 10,
+                    textColor: [126, 138, 149],
+                    valign: 'middle',
+                    vjustificate: 'center'
+                },
+                columnStyles: { 0: { fontStyle: 'bold' } }
+            });
+
+        }
+
+        doc.save('reporte.pdf');
+    };
+
 
     if (isDeleteDialog) {
         return (
@@ -638,7 +695,10 @@ const Subjects = () => {
                 </div>
                 <div className={classes.buttonSubject}>
                     <Button icon={addSubject} text={"Habilitar Materia"} className={classes.iconButton} onClick={handleOpenModalEnable} />
+                    <Button icon={reportIcon} text={"Generar Reporte"} className={classes.iconButton} onClick={handleGenerateReport} />
+
                 </div>
+                
                 <div className={classes.tableSubject}>
                     <Table 
                         columns={columns} 
@@ -661,6 +721,7 @@ const Subjects = () => {
                         onDelete={handleDeleteModal} 
                         onAdd={handleOpenStudentList}
                         state={12}
+                        tableRef={tableRefSubjects}
                     />
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import { createTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import Poppins from '../assets/fonts/Poppins-Regular.ttf';
 import Poppinsbold from '../assets/fonts/Poppins-Bold.ttf';
 import PoppinssemiBold from '../assets/fonts/Poppins-SemiBold.ttf';

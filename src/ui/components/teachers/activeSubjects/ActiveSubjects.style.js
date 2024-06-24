@@ -1,6 +1,5 @@
-import { makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles((theme)=>({
+import { makeStyles } from "@mui/styles";
+const useStyles = makeStyles ((theme) => ({
     subjectsTable:{
         margin:"3vw 0vw 0vw 9vw"
     },

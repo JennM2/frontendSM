@@ -28,6 +28,8 @@ import Careers from "../ui/components/administrator/careers/Careers";
 import SubjectsCareers from "../ui/components/administrator/subjects/SubjectsCareers"
 import Evaluation from "../ui/components/student/evaluation/evaluation";
 import Report from "../ui/components/teachers/report/report";
+import Admins from "../ui/components/administrator/admins/admins";
+import History from "../ui/components/student/history/history";
 
 export const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -37,6 +39,7 @@ export const routes = createBrowserRouter(
         <Route path="users" element={<Users />} />
         <Route path="careers" element={<Careers />} />
         <Route path="subjectsCareers" element={<SubjectsCareers />} />
+        <Route path="admins" element={<Admins />} />
         <Route path="secretaries" element={<Secretaries />} />
         <Route path="list" element={<TeacherList />} />
         <Route path="evaluation" element={<TeacherEvaluation />} />
@@ -63,6 +66,7 @@ export const routes = createBrowserRouter(
         <Route path="scheduleSubject" element={<ScheduleSubject />} />
         <Route path="paymentHistory" element={<PaymentHitory />} />
         <Route path="evaluation" element={<Evaluation />} />
+        <Route path="history" element={<History />} />
 
       </Route>
       /

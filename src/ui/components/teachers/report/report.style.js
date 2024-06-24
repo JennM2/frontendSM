@@ -1,6 +1,5 @@
-import { makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles((theme) => ({
+import { makeStyles } from "@mui/styles";
+const useStyles = makeStyles ((theme) => ({
     tablePayments: {
         margin: "4vw 0vw 0vw 7vw",
         width: "80%",

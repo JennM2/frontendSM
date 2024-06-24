@@ -16,6 +16,7 @@ import Wellcome from './wellcome/Wellcome';
 import perfil from '../../../assets/icons/perfilMenu.svg';
 import users from '../../../assets/icons/usersMenu.svg';
 import secretaries from '../../../assets/icons/secretaryMenu.svg';
+import admin from '../../../assets/icons/shield_person.svg';
 import teachers from '../../../assets/icons/teacherMenu.svg';
 import list from '../../../assets/icons/listSubMenu.svg';
 import evaluation from '../../../assets/icons/evaluationMenu.svg';
@@ -27,6 +28,7 @@ import Careers from './careers/Careers';
 import SubjectsCareers from './subjects/SubjectsCareers'
 import addSubject from '../../../assets/icons/subjectsMenu.svg'
 import reports from '../../../assets/icons/reports.svg'
+import Admins from './admins/admins';
 
 const Admin = () => {
     const classes = useStyles();
@@ -70,6 +72,11 @@ const Admin = () => {
             name: 'Secretarios',
             image: secretaries,
             path: 'secretaries'
+        },
+        {
+            name: 'Administradores',
+            image: admin,
+            path: 'admins'
         },
         {
             name: 'Docentes',
@@ -138,7 +145,8 @@ const Admin = () => {
                         <Route path='/' element={<Wellcome />} />
                         <Route path='/perfil' element={<Perfil nameUser={nameUser} />} />
                         <Route path='/users' element={<Users />} />
-                        <Route path='/secretaries' element={<Secretaries />} />
+                        <Route path='/secretaries' element={< Secretaries/>} />
+                        <Route path='/admins' element={<Admins />} />
                         <Route path='/careers' element={<Careers />} />
                         <Route path='/subjectsCareers' element={<SubjectsCareers />} />
                         <Route path='/list' element={<TeachersList />} />

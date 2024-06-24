@@ -1,6 +1,5 @@
-import { makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles((theme) => ({
+import { makeStyles } from "@mui/styles";
+const useStyles = makeStyles ((theme) => ({
     buttonNotification: {
         display: "flex",
         alignContent: "flex-end",

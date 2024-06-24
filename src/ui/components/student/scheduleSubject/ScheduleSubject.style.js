@@ -1,6 +1,5 @@
-import { makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles((theme) => ({
+import { makeStyles } from "@mui/styles";
+const useStyles = makeStyles ((theme) => ({
     subtitle: {
         fontFamily: "Poppins-Semibold",
         fontSize: "1.5vw",

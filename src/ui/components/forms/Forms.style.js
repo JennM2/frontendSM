@@ -1,7 +1,6 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from "@mui/styles";
 
-
-const useStyles = makeStyles((theme)=>({
+const useStyles = makeStyles ((theme) => ({
 
     selectContainer: {
         display: "flex",
@@ -80,7 +79,7 @@ const useStyles = makeStyles((theme)=>({
         display:"flex",
         width:"25vw",
         height:"5vh",
-        margin:"6vh 0vw 7vh 8.9vw",
+        margin:"3vh 0vw 2vh 5vw",
     },
     iconSearch:{
         position:"relative",

@@ -26,12 +26,10 @@ const ScheduleSubject = () => {
   const classes = useStyle();
   const studentClasses = studentStyle();
 
-  const columns = ["N°", "Materia", "Horario", "Grupo", "Docente", "Desde", "Hasta", "Acción"];
+  const columns = ["N°", "Materia", "Horario", "Grupo", "Docente", "Desde", "Hasta", "Precio", "Acción"];
   const [data, setData] = useState([]);
   const [dataPayment, setDataPayment] = useState([]);
-  const [dataCard, setDataCard] = useState({
-    amount:250
-  });
+  const [dataCard, setDataCard] = useState();
   
   const [modalSchedule, setModalSchedule] = useState(false);
   const [idSchedule, setIdSchedule] = useState(0);
@@ -73,7 +71,7 @@ const ScheduleSubject = () => {
       idStudent: token.idStudent,
       idEnable : idSchedule,
       payment : {
-        amount: 250,
+        amount: dataPayment.price,
         card: dataCard
       }
     }
@@ -108,7 +106,6 @@ const ScheduleSubject = () => {
     
   ];
   const fieldsC11 = [
-    { label: "Monto por cancelar", type: "text", id: "amount", value:'200' },
     {label: "Numero de tarjeta", type: "text", id: "numberCard"},
     { label: "Fecha de vencimiento", type: "month", id: "dateCard" },
     { label: "Codigo CVC", type: "text", id: "cvcCard" },
@@ -144,7 +141,7 @@ const ScheduleSubject = () => {
             <p className={classes.subtitle}>
               DATOS DE PAGO
               <br/>
-              <i>El monto total por materia tiene un costo de 250 Bs.</i>
+              <i>{`El monto total por la materia tiene un costo de ${dataPayment.price} Bs.`}</i>
             </p>
             <div className={modalClasses.containerInputs}>
 
@@ -199,7 +196,6 @@ const ScheduleSubject = () => {
           </div>
           <div>
             <p className={classes.subtitle}>
-              Fecha de programación hasta el 19 de marzo
             </p>
             <div className={classes.tableSchedule}>
               <Table
@@ -211,8 +207,9 @@ const ScheduleSubject = () => {
                   item.schedule,
                   item.group,
                   item.nameTeacher,
-                  item.dateStart,
-                  item.dateEnd,
+                  item.dateStart.slice(0,10),
+                  item.dateEnd.slice(0,10),
+                  item.price,
                   item.idEnable])}
                 columnAction={"Accin"}
                 columnIcon={"Acción"}

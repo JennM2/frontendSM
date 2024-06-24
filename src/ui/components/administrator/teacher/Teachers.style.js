@@ -1,6 +1,5 @@
-import { makeStyles } from "@material-ui/core";
-
-const useStyles = makeStyles((theme) => ({
+import { makeStyles } from "@mui/styles";
+const useStyles = makeStyles ((theme) => ({
     headTeachers: {
         display: "flex",
         justifyContent: "space-between",
@@ -35,6 +34,12 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: "1vw",
         width: "3vw",
         height: "3vh",
+    },
+    iconButton: {
+        paddingLeft: "1vw",
+        width: "2.5vw",
+        height: "2.5vw",
+        cursor: "pointer",
     },
     tableTch: {
         width: "65vw",
@@ -246,6 +251,12 @@ const useStyles = makeStyles((theme) => ({
     aspects:{
         fontSize: "1vw",
         width: "80%",
+    },
+    options:{
+        width:'80%',
+        display:'flex',
+        justifyContent:'space-between',
+        position:'relative'
     }
 }));
 

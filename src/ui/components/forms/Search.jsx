@@ -12,7 +12,6 @@ const Search = ({text, onSearch, type='text', values, placeholder}) => {
             {type==='select'?
                 <select className={classes.inputSearch} onChange={(e)=>{onSearch(e.target.value)}}>
                     <option>{placeholder}</option>
-                    
                     {
                         values.map((item, index) => (
                             <option key={index} value={item.idEnable}>

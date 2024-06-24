@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Axios from "axios";
 
 import adminStyles from "../Admin.style";
@@ -12,6 +12,7 @@ import Credentials from "../../forms/Credentials";
 import newStudent from "../../../../assets/icons/newUser.svg";
 import editStudent from "../../../../assets/icons/edit.svg";
 import qualification from "../../../../assets/icons/qualification.svg";
+import history from "../../../../assets/icons/history.svg";
 import saveIcon from "../../../../assets/icons/save.svg";
 import cancelIcon from "../../../../assets/icons/cancel.svg";
 import deletIconW from "../../../../assets/icons/deleteW.svg";
@@ -20,6 +21,13 @@ import editIconW from "../../../../assets/icons/editLight.svg";
 import closeArrow from "../../../../assets/icons/arrow.svg";
 import openArrow from "../../../../assets/icons/arrow2.svg";
 import { enqueueSnackbar } from "notistack";
+import reportIcon from '../../../../assets/icons/reports.svg';
+import logo from '../../../../assets/images/logoSMpdf.png';
+import poppins from '../../../../assets/fonts/Poppins-Regular.ttf';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+import { jsPDF } from 'jspdf';
+
 
 const Students = () => {
   const adminClasses = adminStyles();
@@ -33,10 +41,12 @@ const Students = () => {
   }
 
   const [dataQualified, setDataQualified] = useState([]);
+  const [dataHistory, setDataHistory] = useState([]);
   const [years, setYears] = useState([]);
   const [toogles, setToogles] = useState([]);
 
   const columnsQualified = ['N°', 'Materia', 'Gestion', 'P1', 'P2', 'P3', 'Prom. Parcial', 'Practicas', 'Examen Final', 'Nota Final'];
+  const columnsHistory = ['N°', 'Materia', 'Gestion', 'Nota Final'];
 
   const newStudentObject = {
     matricula:"",
@@ -53,6 +63,7 @@ const Students = () => {
 
   const [isOpenNew, setIsOpenNew] = useState(false);
   const [isOpenQualification, setIsOpenQualification] = useState(false);
+  const [isOpenHistory, setIsOpenHistory] = useState(false);
   const [isDeleteDialog, setIsDeleteDilog] = useState(false);
   const [idDelete, setIdDelete] = useState("");
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
@@ -91,6 +102,7 @@ const Students = () => {
   //Listar Estudiantes
   const [data, setData] = useState([]);
   const [dataCarrera, setDataCarrera] = useState([]);
+  const [average, setAverage] = useState(0);
 
   const loadData = () => {
     Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/students`)
@@ -163,8 +175,27 @@ const Students = () => {
       });
       setYears(dataYears);
       setToogles(dataToogles);
-
       setDataQualified(response.data.data);
+  }).catch((error) => {
+      console.log(error);
+  });
+  }
+
+  const loadDataHistory = (id) => {
+    Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/programming/notesHistoryByIdStudent/${id}`).then((response) => {
+      console.log(response)
+      setDataHistory(response.data);
+      let sum = 0;
+      if(response.data.length !== 0){
+        response.data.map(item=>{
+          sum += item.final
+          return true
+        })
+        setAverage((sum/response.data.length).toFixed(2))
+      }else{
+        setAverage(0);
+      }
+      
   }).catch((error) => {
       console.log(error);
   });
@@ -185,8 +216,26 @@ const Students = () => {
     setIsOpenQualification(!isOpenQualification);
     
   };
+
+  const handleHistory = (rowId, idSpecific) => {
+    setIsOpenHistory(!isOpenHistory);
+    const student = data.find(item =>  {return item[10] === idSpecific;})
+    const idStudent = student[1];
+    setNameStudent({
+      patern : student[3],
+      matern : student[4],
+      names : student[5],
+    })
+    setNameSubject(student[9]);
+    setCodeStudent(student[1]);
+    loadDataHistory(idStudent);
+  }
+
   const handleCloseQualification = () => {
     setIsOpenQualification(!isOpenQualification);
+  };
+  const handleCloseHistory = () => {
+    setIsOpenHistory(!isOpenHistory);
   };
   const handleDeleteModal = (id) => {
     setIsDeleteDilog(!isDeleteDialog);
@@ -278,6 +327,73 @@ const Students = () => {
   const handleOpenModalEdit = () => {
     setIsModalEditOpen(!isModalEditOpen);
   };
+
+  const tableRef = useRef(null);
+    const currentDate = new Date();
+    const formattedDate = format(currentDate, "MMMM dd, yyyy", { locale: es });
+
+    const handleGenerateReport = () => {
+        const doc = new jsPDF();
+        doc.setFontSize(16);
+        doc.addFont(poppins, 'Poppins', 'normal');
+        doc.setFont('Poppins');
+        doc.addImage(logo, 'SVG', 10, 9, 20, 20);
+        doc.setFontSize(10);
+        doc.setTextColor(39, 103, 158);
+        doc.text('Instituto Técnico', 33, 18);
+        doc.setFontSize(14);
+        doc.text('SAN MARTIN', 33, 23);
+        doc.setFontSize(10);
+        doc.text('Fecha', 180, 20);
+        doc.text(formattedDate, 166, 25);
+        doc.setFontSize(20);
+        doc.setTextColor(17, 45, 94);
+        doc.setFont('Helvetica');
+        doc.text('Historial academico', 78, 45);
+        doc.setFontSize(14);
+        doc.setTextColor(39, 103, 158);
+        doc.text(`Estudiante: ${(nameStudent.patern + ' ' + nameStudent.matern + ' ' + nameStudent.names) }`,20,55);
+        doc.text(`N° de programaciones: ${dataHistory.length}`,20,60);
+        doc.text(`Promedio: ${average}`,20,65);
+        doc.setDrawColor(39, 103, 158);
+        doc.rect(130, 50, 55, 20);
+        doc.setFont("bold");
+        doc.setFontSize(10);
+        doc.text(`Rectora`,152,69);
+        doc.line(135, 66, 180, 66);
+        if (tableRef.current) {
+
+            doc.autoTable({
+                html: tableRef.current,
+                startY: 75,
+                theme: 'plain',
+                headStyles: {
+                    textColor: [39, 103, 158],
+                    fontSize: 12,
+                },
+                styles: {
+                    fontSize: 10,
+                    cellPadding: 2,
+                    rowHeight: 10,
+                    textColor: [126, 138, 149],
+                    valign: 'middle',
+                    vjustificate: 'center'
+                },
+                columnStyles: { 0: { fontStyle: 'bold' } },
+                didDrawPage: function () {
+                    doc.setLineWidth(0.5);
+                    doc.setDrawColor(39, 103, 158);
+                    const startY = 70;
+                    const endY = 70;
+                    const tableWidth = doc.internal.pageSize.width - 25;
+                    doc.line(12, startY, tableWidth, endY);
+                }
+            });
+
+        }
+        doc.save('reporte.pdf');
+    };
+
 
   if (isDeleteDialog) {
     return (
@@ -538,6 +654,55 @@ const Students = () => {
         </div>
       </div>
     );
+  } else if (isOpenHistory) {
+    return (
+      <div className={modalClasses.total}>
+        <div className={modalClasses.under}></div>
+        <div className={modalClasses.container}>
+          <div className={modalClasses.content}>
+            <div className={classes.containerStudent}>
+              <div className={classes.nameStudent}>
+                <p>
+                  {nameStudent.names} <br /> {nameStudent.patern} {nameStudent.matern}
+                </p>
+                <div className={classes.dataStudent}>
+                  <p>Matrícula: {codeStudent}</p>
+                  <p>Carrera: {nameSubect}</p>
+                </div>
+              </div>
+              <div className={classes.data}>
+                <div>
+                  <p>{`Numero de Programaciones: ${dataHistory.length }`}</p>
+                  <p>{`Promedio total: ${average}`}</p>
+                </div>
+                <div className={classes.dataButton}>
+                    <ButtonSM icon={reportIcon} text={"Generar reporte"} className={classes.iconButton} onClick={()=>{handleGenerateReport()}} />
+                </div>
+              </div>
+                <Table
+                  columns={columnsHistory}
+                  data={dataHistory.map((item, index)=>[
+                      index + 1,
+                      item.subject,
+                      item.month,
+                      item.final
+                  ])}
+                  className2={classes.tableQualified}
+                  tableRef={tableRef}
+                />
+              <div className={classes.buttons}>
+                <ButtonSM
+                  className={classes.iconPosition}
+                  icon={cancelIcon}
+                  text="Cerrar"
+                  onClick={handleCloseHistory}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   } else {
     return (
       <div className={adminClasses.content}>
@@ -569,13 +734,14 @@ const Students = () => {
             )}
             icon={editStudent}
             icon2={qualification}
+            icon3={history}
             columnIcon={"Acción"}
             className={classes.tableStudents}
             onDelete={handleQualification}
             start={1}
             end={4}
             onEdit={handleEditClick}
-            onAdd={handleQualification}
+            onAdd={handleHistory}
           />
         </div>
       </div>

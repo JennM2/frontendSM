@@ -1,7 +1,6 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from "@mui/styles";
 
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles ((theme) => ({
     table: {
         overflowY:'scroll',
         width: "65vw",

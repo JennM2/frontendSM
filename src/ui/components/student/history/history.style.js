@@ -1,10 +1,9 @@
 import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles ((theme) => ({
-
     subtitle: {
         fontFamily: "Poppins-Semibold",
         fontSize: "1.5vw",
-        textAlign:'center'
+        marginLeft:'10vw'
     },
     tableSchedule: {
         marginLeft: "8.5vw",
@@ -137,8 +136,9 @@ const useStyles = makeStyles ((theme) => ({
         marginBottom: "0.5vw"
     },
     dataStudent: {
-        fontFamily: "Poppins-Regular",
-        fontSize: "1.2vw",
+        display:'flex',
+        gap:'35vw',
+        alignItems:'center'
     },
     sectionYear: {
         width: "100%",
@@ -209,5 +209,7 @@ const useStyles = makeStyles ((theme) => ({
         fontSize:"1.1vw",
         textAlign:"center",
     },
+
 }));
+
 export default useStyles;

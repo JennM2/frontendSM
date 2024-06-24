@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Axios from "axios";
 
 import adminStyles from "../Admin.style";
@@ -19,6 +19,13 @@ import alertIcon from "../../../../assets/images/alert.svg";
 import deletIconW from "../../../../assets/icons/deleteW.svg";
 import editIconW from "../../../../assets/icons/editLight.svg";
 import { enqueueSnackbar } from "notistack";
+import reportIcon from '../../../../assets/icons/reports.svg';
+import logo from '../../../../assets/images/logoSMpdf.png';
+import poppins from '../../../../assets/fonts/Poppins-Regular.ttf';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+import { jsPDF } from 'jspdf';
+
 
 const TeacherList = () => {
   const adminClasses = adminStyles();
@@ -30,6 +37,7 @@ const TeacherList = () => {
   const [isModalAssingOpen, setIsModalAssingOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchTermYear, setSearchTermYear] = useState(0);
   const [isDeleteDialog, setIsDeleteDilog] = useState(false);
   const [idDelete, setIdDelete] = useState("");
   const [idDeleteSpecific, setIdDeleteSpecific] = useState("");
@@ -58,6 +66,8 @@ const TeacherList = () => {
   const [phoneTeacher, setPhoneTeacher] = useState("");
   const [userTeacher, setUserTeacher] = useState("");
   const [passwordTeacher, setPasswordTeacher] = useState("");
+
+  
 
   //---------------Obtener Materias
   useEffect(() => {
@@ -154,7 +164,7 @@ const TeacherList = () => {
   const [dataModal, setDataModal] = useState([]);
 
   const loadDataModal = () => {
-    Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/subjectTeacher`)
+    Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/subjectTeacher/all/${searchTermYear}`)
     .then((res) => {
       const dataArrayModal = res.data.map((subjectTeacher) => [
         subjectTeacher.paterno,
@@ -171,7 +181,7 @@ const TeacherList = () => {
     });
   }
 
-  useEffect(loadDataModal, []);
+  useEffect(loadDataModal, [searchTermYear]);
 
   const fieldsC1 = [
     {
@@ -343,6 +353,14 @@ const TeacherList = () => {
         loadData();
         enqueueSnackbar('Creado',{variant:'success'});
         setIsModalNewOpen(false);
+        setUserTeacher('')
+        setPasswordTeacher('')
+        setSurnamePTeacher('')
+        setSurnameMTeacher('')
+        setNameTeacher('')
+        setCiTeacher('')
+        setEmailTeacher('')
+        setPhoneTeacher('')
       })
       .catch((error) => {
         enqueueSnackbar(error.response.data.message,{variant:'warning'})
@@ -407,6 +425,9 @@ const TeacherList = () => {
         enqueueSnackbar('Asignado',{variant:'success'});
         loadDataSubjectTeacher(assignId);
         loadDataModal();
+        setSelectedCareer('');
+        setSelectedYear('');
+        setSelectedSubject('');
       }).catch((err)=>{
         enqueueSnackbar(err.response.data.message,{variant:'warning'})
       })
@@ -416,6 +437,70 @@ const TeacherList = () => {
       enqueueSnackbar("¡Faltan campos por seleccionar!",{variant:'warning'});
     }
   };
+
+  const year = [{idEnable:0, subject:'Todos'}];
+  for (let index = 2020; index <= 2050; index++) {
+    year.push({idEnable:index, subject:index})
+  }
+
+  const tableRef = useRef(null);
+    const currentDate = new Date();
+    const formattedDate = format(currentDate, "MMMM dd, yyyy", { locale: es });
+
+    const handleGenerateReport = () => {
+        const doc = new jsPDF();
+        doc.setFontSize(16);
+        doc.addFont(poppins, 'Poppins', 'normal');
+        doc.setFont('Poppins');
+        doc.addImage(logo, 'SVG', 10, 9, 20, 20);
+        doc.setFontSize(10);
+        doc.setTextColor(39, 103, 158);
+        doc.text('Instituto Técnico', 33, 18);
+        doc.setFontSize(14);
+        doc.text('SAN MARTIN', 33, 23);
+        doc.setFontSize(10);
+        doc.text('Fecha', 180, 20);
+        doc.text(formattedDate, 166, 25);
+        doc.setFontSize(20);
+        doc.setTextColor(17, 45, 94);
+        doc.setFont('Helvetica');
+        doc.text('Reporte de asignaciones por año', 58, 45);
+        doc.setFontSize(14);
+        doc.setTextColor(39, 103, 158);
+        doc.text(`Año: ${searchTermYear==='0'?'Todos':`${searchTermYear}`}`,20,60);
+        doc.setLineWidth(0.5);
+        doc.setDrawColor(39, 103, 158);
+        const startY = 70;
+        const endY = 70;
+        const tableWidth = doc.internal.pageSize.width - 25;
+        doc.line(12, startY, tableWidth, endY);
+
+        if (tableRef.current) {
+
+            doc.autoTable({
+                html: tableRef.current,
+                startY: 70,
+                theme: 'plain',
+                headStyles: {
+                    textColor: [39, 103, 158],
+                    fontSize: 12,
+                },
+                styles: {
+                    fontSize: 10,
+                    cellPadding: 2,
+                    rowHeight: 10,
+                    textColor: [126, 138, 149],
+                    valign: 'middle',
+                    vjustificate: 'center'
+                },
+                columnStyles: { 0: { fontStyle: 'bold' } }
+            });
+
+        }
+
+        doc.save('reporte.pdf');
+    };
+
   
   if (isDeleteDialog) {
     return (
@@ -530,12 +615,27 @@ const TeacherList = () => {
             <p className={classes.titlemodalList}>
               LISTA DE ASIGNACION DE TODOS LOS DOCENTES
             </p>
+            <div className={classes.options}>
+                <Search 
+                  label={"Buscar año"} 
+                  text={"Buscar"} 
+                  onSearch={setSearchTermYear} 
+                  type={'select'} 
+                  value={searchTermYear}
+                  values={year}
+                  placeholder={'Buscar por año'}
+                />
+                <div>
+                    <ButtonSM icon={reportIcon} text={"Generar reporte"} className={classes.iconButton} onClick={()=>{handleGenerateReport()}} />
+                </div>
+            </div>
             <div className={modalClasses.tableModal}>
               <Table
                 columns={columnsModal}
                 data={dataModal}
                 className={classes.table}
                 className2={classes.tableBody}
+                tableRef={tableRef}
               />
             </div>
             <div className={classes.contentButtons}>

@@ -1,7 +1,7 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from "@mui/styles";
 ///import mq from '../../../config/mq';
 
-const useStyles = makeStyles((theme)=>({
+const useStyles = makeStyles ((theme) => ({
     wrapper: {
         height : "100vh",
         display: "flex",

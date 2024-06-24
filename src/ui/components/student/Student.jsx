@@ -14,6 +14,7 @@ import monthlyPaymentsIcon from '../../../assets/icons/payMenu.svg';
 import closeSession from '../../../assets/icons/closeSessionMenu.svg';
 import notificationIcons from '../../../assets/icons/notificationStudent.svg';
 import evaluationIcon from '../../../assets/icons/evaluation.svg';
+import historyIcon from '../../../assets/icons/historyWhite.svg';
 
 
 import Welcome from './wellcome/Wellcome';
@@ -24,6 +25,7 @@ import PaymentHistory from './paymentHistory/PaymentHistory';
 import perfil from '../../../assets/icons/perfilMenu.svg';
 import Perfil from '../administrator/perfil/Perfil';
 import Evaluation from './evaluation/evaluation';
+import History from './history/history';
 
 
 
@@ -42,7 +44,13 @@ const Student = () => {
             name: 'Plan de Estudios',
             image: curriculumIcon,
             path: 'curriculum'
-        },{
+        },
+        {
+            name: 'Historial',
+            image: historyIcon,
+            path: 'history'
+        },
+        {
             name: 'Ver Notas',
             image: qualificationIcon,
             path: 'qualifications'
@@ -91,6 +99,7 @@ const Student = () => {
                     <Routes>
                         <Route path='/' element={<Welcome />} />
                         <Route path='/perfil' element={<Perfil/>}/>
+                        <Route path='/history' element={<History />} />
                         <Route path='/qualifications' element={<Qualifications />} />
                         <Route path='/curriculum' element={<Curriculum />} />
                         <Route path='/scheduleSubject' element={<ScheduleSubject />} />

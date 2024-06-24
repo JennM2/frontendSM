@@ -1,11 +1,12 @@
-import { makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles((theme) => ({
+import { makeStyles } from "@mui/styles";
+const useStyles = makeStyles ((theme) => ({
     buttonSubject: {
-        width: "17%",
+        width: "30%",
         height: "8%",
-        margin: "3vw 0vw 2.5vw 63vw",
+        margin: "3vw 0vw 2.5vw 55vw",
         cursor: "pointer",
+        display:'flex',
+        gap:'15px'
     },
     iconButton: {
         paddingLeft: "1vw",

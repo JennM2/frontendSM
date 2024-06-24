@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Axios from "axios";
 import { enqueueSnackbar } from "notistack";
 
@@ -15,6 +15,15 @@ import saveIcon from "../../../../assets/icons/save.svg";
 import cancelIcon from "../../../../assets/icons/cancel.svg";
 import deletIconW from "../../../../assets/icons/delete.svg";
 import alertIcon from "../../../../assets/images/alert.svg";
+import paydIcon from "../../../../assets/icons/paid.svg";
+import reportIcon from '../../../../assets/icons/reports.svg';
+import closeIcon from '../../../../assets/icons/cancel.svg';
+import logo from '../../../../assets/images/logoSMpdf.png';
+import poppins from '../../../../assets/fonts/Poppins-Regular.ttf';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+import { jsPDF } from 'jspdf';
+
 
 const SubjectsCareers = () => {
   const adminClasses = adminStyles();
@@ -26,9 +35,12 @@ const SubjectsCareers = () => {
   const [idDelete, setIdDelete] = useState("");
   const [idDeleteSpecific, setIdDeleteSpecific] = useState("");
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
+  const [isModalPriceOpen, setIsModalPriceOpen] = useState(false);
+
   const [editingRow, setEditingRow] = useState(null);
   const [editedId, setEditedId] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchTermMonth, setSearchTermMonth] = useState("");
 
   const [careers, setCareers] = useState("");
   const [selectedCareer, setSelectedCareer] = useState("");
@@ -39,6 +51,8 @@ const SubjectsCareers = () => {
   const [subject, setSubject] = useState("");
   const [code, setCode] = useState("");
   const [preSubject, setPreSubject] = useState("");
+  const [dataPrice, setDataPrice] = useState([]);
+  const [nameSubject, setNameSubject] = useState('');
 
   const columns = [
     "N°",
@@ -79,6 +93,21 @@ const SubjectsCareers = () => {
   };
 
   useEffect(loadData, []);
+
+  const loadDataPrice = (id) => {
+    Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/enable/price/${id}`)
+      .then((response) => {
+        setDataPrice(response.data.map((item, index)=>[
+          index + 1,
+          item.month,
+          item.price,
+          item.students
+        ]));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   //---------------Obtener laa carreras y sus anios por el nombre
   useEffect(() => {
@@ -253,7 +282,124 @@ const SubjectsCareers = () => {
     setIsModalEditOpen(!isModalEditOpen);
   };
 
-  if (isDeleteDialog) {
+  const handleClickPrice = (id, idSpecific, name) => {
+    setIsModalPriceOpen(!isModalPriceOpen);
+    loadDataPrice(idSpecific);
+    setNameSubject(name);
+  }
+  const columnsModal = ['N°', 'Gestion', 'Precio', 'Estudiantes'];
+  const months= [
+    'Enero', 'Febrero', 'Marzo', 
+    'Abril', 'Mayo', 'Junio', 
+    'Julio', 'Agosto', 'Septiembre', 
+    'Octubre', 'Noviembre', 'Diciembre'];
+
+    const tableRef = useRef(null);
+    const currentDate = new Date();
+    const formattedDate = format(currentDate, "MMMM dd, yyyy", { locale: es });
+
+  const handleGenerateReport = () => {
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.addFont(poppins, 'Poppins', 'normal');
+      doc.setFont('Poppins');
+      doc.addImage(logo, 'SVG', 10, 9, 20, 20);
+      doc.setFontSize(10);
+      doc.setTextColor(39, 103, 158);
+      doc.text('Instituto Técnico', 33, 18);
+      doc.setFontSize(14);
+      doc.text('SAN MARTIN', 33, 23);
+      doc.setFontSize(10);
+      doc.text('Fecha', 180, 20);
+      doc.text(formattedDate, 166, 25);
+      doc.setFontSize(20);
+      doc.setTextColor(17, 45, 94);
+      doc.setFont('Helvetica');
+      doc.text('Reporte de precios', 78, 45);
+      doc.setFontSize(14);
+      doc.setTextColor(39, 103, 158);
+      doc.text(`Materia: ${nameSubject}`,20,55);
+      doc.text(`Gestion: ${searchTermMonth===''?'Todos los registrados':`${searchTermMonth}`}`,20,60);
+
+      if (tableRef.current) {
+
+          doc.autoTable({
+              html: tableRef.current,
+              startY: 70,
+              theme: 'plain',
+              headStyles: {
+                  textColor: [39, 103, 158],
+                  fontSize: 12,
+              },
+              styles: {
+                  fontSize: 10,
+                  cellPadding: 2,
+                  rowHeight: 10,
+                  textColor: [126, 138, 149],
+                  valign: 'middle',
+                  vjustificate: 'center'
+              },
+              columnStyles: { 0: { fontStyle: 'bold' } },
+              didDrawPage: function () {
+                  doc.setLineWidth(0.5);
+                  doc.setDrawColor(39, 103, 158);
+                  const startY = 70;
+                  const endY = 70;
+                  const tableWidth = doc.internal.pageSize.width - 25;
+                  doc.line(12, startY, tableWidth, endY);
+              }
+          });
+
+      }
+
+      doc.save('reporte.pdf');
+  };
+
+
+  if (isModalPriceOpen) {
+    return (
+        <div className={modalClasses.total}>
+            <div className={modalClasses.under}></div>
+            <div className={modalClasses.container}>
+                <div className={modalClasses.content}>
+                    <p className={classes.titleEnable}>Historial de precios</p>
+                    <div className={classes.containerName}>
+                        <div className={classes.nameteacher}>
+                            <p>{nameSubject}</p>
+                        </div>
+                    </div>
+                    <hr className={classes.lineDetail} />
+                    
+                    <div className={classes.options}>
+                        <Search label={"Buscar gestion"} text={"Buscar"} onSearch={setSearchTermMonth} type={'month'} value={searchTermMonth}/>
+                        <div>
+                            <ButtonSM icon={reportIcon} text={"Generar reporte"} className={classes.iconButton} onClick={()=>{handleGenerateReport()}} />
+                        </div>
+                    </div>
+                    <div className={classes.containerTableDetail}>
+                        <Table 
+                            columns={columnsModal} 
+                            data={dataPrice.filter((item) => {
+                                const date = `${months[Number(searchTermMonth.slice(5,7)) - 1]} / ${searchTermMonth.slice(0,4)}`;
+                                if(searchTermMonth==='')
+                                    return true
+                                else
+                                    return item[2] === date
+                            }
+                                )} 
+                            className={classes.tableDetail} 
+                            className2={classes.bodyTableDetail}
+                            tableRef={tableRef} 
+                        />
+                    </div>
+                    <div className={classes.buttonClose}>
+                        <ButtonSM icon={closeIcon} text="Cerrar" className={classes.iconTeacher} onClick={()=>{setIsModalPriceOpen(false)}} />
+                    </div>
+                  </div>
+              </div>
+          </div>
+      );
+  } else if (isDeleteDialog) {
     return (
       <div className={modalClasses.total}>
         <div className={modalClasses.under}></div>
@@ -516,13 +662,15 @@ const SubjectsCareers = () => {
             )}
             icon={editStudent}
             icon2={deletIconW}
+            icon3={paydIcon}
             columnIcon={"Acción"}
             className={classes.tableStudents}
             onDelete={handleDeleteModal}
             start={1}
-            end={4}
+            end={3}
             onEdit={handleEditClick}
             state={6}
+            onAdd={handleClickPrice}
           />
         </div>
       </div>

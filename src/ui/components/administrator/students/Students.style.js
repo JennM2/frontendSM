@@ -1,6 +1,5 @@
-import { makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles((theme) => ({
+import { makeStyles } from "@mui/styles";
+const useStyles = makeStyles ((theme) => ({
     
     studentsTop: {
         display: "flex",
@@ -173,6 +172,16 @@ const useStyles = makeStyles((theme) => ({
     },
     lineFirst: {
         margin: "0.5vw 0vw 1vw 0vw"
+    },
+    data:{
+        fontSize: '1rem',
+        display:'flex',
+        width:'100%',
+        justifyContent:'space-between'
+    },
+    dataButton:{
+        width:'12vw',
+        height:'8vh'
     }
 }));
 

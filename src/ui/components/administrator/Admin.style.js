@@ -22,8 +22,6 @@ const useStyles = makeStyles ((theme) => ({
     },
 
     menu: {
-        display: "flex",
-        flexDirection: "column",
         justifyContent: "center",
         background: `radial-gradient(circle at 0% 5%, ${theme.palette.primary.light}  , ${theme.palette.primary.contrastText} )`,
         width: "17vw",
@@ -31,7 +29,8 @@ const useStyles = makeStyles ((theme) => ({
         position: 'sticky',
         top:'15vh',
         borderRadius: " 0vh 4vw 0vh 0vw",
-
+        overflowY:'auto',
+        scrollbarWidth: 'none'
     },
     line: {
         width: "90%",

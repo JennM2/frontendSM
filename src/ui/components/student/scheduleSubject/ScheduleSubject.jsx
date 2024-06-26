@@ -37,7 +37,6 @@ const ScheduleSubject = () => {
   const loadData = () => {
     Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/enable/toProgram/${token.idStudent}`).then(response=>{
       setData(response.data.data);
-
       if(response.data.results.length > 0){
         setEvaluationPending(true);
         enqueueSnackbar('Debe finalizar sus evaluaciones docente antes de programar',{variant:'warning'});
@@ -94,8 +93,15 @@ const ScheduleSubject = () => {
     
   ];
 
-
   useEffect(loadData,[token.idStudent])
+
+  const handleUpdatePay = async() => {
+    await Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/payments/updatePay/${token.idStudent}`).then(response=>{
+      console.log(response);
+    })
+    loadData();
+    enqueueSnackbar('Actualizado',{variant:'success'});
+  }
 
   if(modalSchedule){
     return (
@@ -157,9 +163,10 @@ const ScheduleSubject = () => {
             <p className={studentClasses.text}>PROGRAMAR MATERIAS</p>
             <hr className={studentClasses.lineTitle} />
           </div>
-          <div>
-            <p className={classes.subtitle}>
-            </p>
+          <div className={classes.tableContainer}>
+            <div className={classes.buttonContainer}>
+              <ButtonSM text={'Actualizar pagos'} onClick={handleUpdatePay}/>
+            </div>
             <div className={classes.tableSchedule}>
               <Table
                 icon2={scheduleIcon}

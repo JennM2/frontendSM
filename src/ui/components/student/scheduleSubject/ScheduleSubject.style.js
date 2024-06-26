@@ -208,6 +208,16 @@ const useStyles = makeStyles ((theme) => ({
         fontSize:"1.1vw",
         textAlign:"center",
     },
+    tableContainer:{
+        display:'flex',
+        flexDirection:'column'
+    },
+    buttonContainer:{
+        width:'15vw',
+        height:'6vh',
+        alignSelf:'end',
+        margin:'2vh 10vw 4vh 0'
+    }
 
 }));
 

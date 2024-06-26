@@ -7,7 +7,6 @@ import { useState } from "react";
 import scheduleIcon from "../../../../assets/icons/schedule.svg";
 import modalStyles from "../../Modal.style";
 import DynamicInputsDisabled from "../../forms/DynamicInputsDisabled";
-import DynamicInputs from "../../forms/DynamicInputs";
 
 import ButtonSM from "../../forms/ButtonSM";
 import cancelIcon from "../../../../assets/icons/cancel.svg";
@@ -29,7 +28,6 @@ const ScheduleSubject = () => {
   const columns = ["N°", "Materia", "Horario", "Grupo", "Docente", "Desde", "Hasta", "Precio", "Acción"];
   const [data, setData] = useState([]);
   const [dataPayment, setDataPayment] = useState([]);
-  const [dataCard, setDataCard] = useState();
   
   const [modalSchedule, setModalSchedule] = useState(false);
   const [idSchedule, setIdSchedule] = useState(0);
@@ -61,26 +59,16 @@ const ScheduleSubject = () => {
     }
   }
 
-  const handleInputCardChange = (id, value) => {
-    if(id!=='amount')
-    setDataCard({...dataCard, [id]:value})
-  }
-
   const handlePayment = () => {
     const dataPayProgramming = {
       idStudent: token.idStudent,
       idEnable : idSchedule,
-      payment : {
-        amount: dataPayment.price,
-        card: dataCard
-      }
+      amount: dataPayment.price,
     }
-    setPayProcess(true);
-    Axios.post(`${process.env.REACT_APP_SERVER_HOST}/api/programming`,dataPayProgramming).then(()=>{
-      setPayProcess(false);
-      enqueueSnackbar('Programacion realizada',{variant:'success'});
-      setModalSchedule(false);
-      loadData();
+    enqueueSnackbar('Generando pago porfavor espere')
+    Axios.post(`${process.env.REACT_APP_SERVER_HOST}/api/payments`,dataPayProgramming).then((response)=>{
+      window.location.href = response.data.url;
+      ///loadData();
     }).catch((error)=>{
       setPayProcess(false);
       enqueueSnackbar(error.response.data.message,{variant:'warning'});
@@ -104,11 +92,6 @@ const ScheduleSubject = () => {
     },
     { label: "Grupo", type: "text", id: "group" },
     
-  ];
-  const fieldsC11 = [
-    {label: "Numero de tarjeta", type: "text", id: "numberCard"},
-    { label: "Fecha de vencimiento", type: "month", id: "dateCard" },
-    { label: "Codigo CVC", type: "text", id: "cvcCard" },
   ];
 
 
@@ -139,29 +122,11 @@ const ScheduleSubject = () => {
               />
             </div>
             <p className={classes.subtitle}>
-              DATOS DE PAGO
               <br/>
               <i>{`El monto total por la materia tiene un costo de ${dataPayment.price} Bs.`}</i>
             </p>
-            <div className={modalClasses.containerInputs}>
-
-              <DynamicInputs
-                enable={payProcess}
-                fields={fieldsC11}
-                className={modalClasses.inputs}
-                onChange={handleInputCardChange}
-                values={dataCard}
-              />
-            </div>
-            {
-            payProcess&&
-              <p className={classes.subtitle}>
-                .......Procesando Pago.......
-              </p>
-            }
+            
             <div className={classes.modalBottom}>
-              <div className={classes.container}>
-                <div className={classes.buttonsModal}>
                   <div className={classes.buttonStudents}>
                     <ButtonSM
                       enable={payProcess}
@@ -180,8 +145,6 @@ const ScheduleSubject = () => {
                       onClick={()=>{setModalSchedule(false);}}
                     />
                   </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

@@ -48,9 +48,9 @@ const Report = () => {
 
     const loadStudents = () =>{
 
-
         if(searchTermSubject){
-            setSubjectName(dataSubject.find(item=>item.idEnable === searchTermSubject).subject);
+
+            setSubjectName(dataSubject.find(item=> {return `${item.idEnable}` === `${searchTermSubject}`})?.subject);
 
             console.log(searchTermSubject);
             Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/programming//allStudents/${searchTermSubject}`).then(response => {
@@ -64,7 +64,7 @@ const Report = () => {
 
     const loadDataSubjects = () => {
         if(searchTermMonth){
-        Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/enable//byMonth/${searchTermMonth}/${token.idTeacher}`).then(response => {
+        Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/enable/byMonth/${searchTermMonth}/${token.idTeacher}`).then(response => {
             console.log(response);
             setDataSubject(response.data);
           }).catch (error=> {

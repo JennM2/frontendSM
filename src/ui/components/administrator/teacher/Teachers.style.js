@@ -59,7 +59,6 @@ const useStyles = makeStyles ((theme) => ({
     },
     table: {
         width: "65vw",
-        height: "20vh",
         borderSpacing: "0px",
         textAlign: "center",
         margin: "5vh 0vw 0vh 0vw",
@@ -253,10 +252,13 @@ const useStyles = makeStyles ((theme) => ({
         width: "80%",
     },
     options:{
-        width:'80%',
+        width:'90%',
         display:'flex',
         justifyContent:'space-between',
         position:'relative'
+    },
+    buttonReport:{
+        width:'12vw'
     }
 }));
 

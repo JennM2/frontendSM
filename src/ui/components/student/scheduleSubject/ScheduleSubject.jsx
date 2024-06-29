@@ -66,8 +66,8 @@ const ScheduleSubject = () => {
     }
     enqueueSnackbar('Generando pago porfavor espere')
     Axios.post(`${process.env.REACT_APP_SERVER_HOST}/api/payments`,dataPayProgramming).then((response)=>{
-      window.location.href = response.data.url;
-      ///loadData();
+      ///window.location.href = response.data.url;
+      enqueueSnackbar('Actualiza pago',{variant:'success'});
     }).catch((error)=>{
       setPayProcess(false);
       enqueueSnackbar(error.response.data.message,{variant:'warning'});

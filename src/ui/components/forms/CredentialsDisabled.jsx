@@ -5,7 +5,7 @@ import pass from '../../../assets/icons/passLog.svg';
 import closedEye from '../../../assets/icons/closedEye.svg';
 import eye from '../../../assets/icons/eyeLog.svg';
 
-const CredentialsDisabled = ({nameUser, passwordUser, onUserChange, onPasswordChange}) => {
+const CredentialsDisabled = ({nameUser, passwordUser, onUserChange, onPasswordChange, password=true}) => {
     const classes = useStyles();
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
@@ -18,11 +18,14 @@ const CredentialsDisabled = ({nameUser, passwordUser, onUserChange, onPasswordCh
                 <input disabled className={classes.txField} placeholder="Usuario" value={nameUser} onChange={e => onUserChange(e.target.value)}/>
                 <img className={classes.iconLog} src={user} alt="user"/>
             </div>
-            <div className={classes.containerInputs} >
-                <input disabled className={classes.txField} placeholder="Contraseña" type={showPassword ? "text" : "password"} value={passwordUser} onChange={e => onPasswordChange(e.target.value)}/>
-                <img className={classes.iconLog} src={pass} alt="password" />
-                <img className={classes.iconLogEye} src={showPassword ? eye : closedEye} alt="eye" onClick={togglePasswordVisibility} />
-            </div>
+            {
+                password && <div className={classes.containerInputs} >
+                    <input disabled className={classes.txField} placeholder="Contraseña" type={showPassword ? "text" : "password"} value={passwordUser} onChange={e => onPasswordChange(e.target.value)}/>
+                    <img className={classes.iconLog} src={pass} alt="password" />
+                    <img className={classes.iconLogEye} src={showPassword ? eye : closedEye} alt="eye" onClick={togglePasswordVisibility} />
+                </div>
+            }
+            
       </form>
     );
 };

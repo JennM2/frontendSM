@@ -83,6 +83,7 @@ const token = JSON.parse(localStorage.getItem('credentialSM'));
           <CredentialsDisabled
             nameUser={data.user}
             passwordUser={data.password}
+            password={false}
           />
         </div>
         <div className={classes.containerInputs}>

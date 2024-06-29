@@ -38,6 +38,7 @@ const TeacherList = () => {
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTermYear, setSearchTermYear] = useState(0);
+  const [searchTermMonth, setSearchTermMonth] = useState('no');
   const [isDeleteDialog, setIsDeleteDilog] = useState(false);
   const [idDelete, setIdDelete] = useState("");
   const [idDeleteSpecific, setIdDeleteSpecific] = useState("");
@@ -164,7 +165,7 @@ const TeacherList = () => {
   const [dataModal, setDataModal] = useState([]);
 
   const loadDataModal = () => {
-    Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/subjectTeacher/all/${searchTermYear}`)
+    Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/subjectTeacher/all/${searchTermYear}/${searchTermMonth}`)
     .then((res) => {
       const dataArrayModal = res.data.map((subjectTeacher) => [
         subjectTeacher.paterno,
@@ -181,7 +182,7 @@ const TeacherList = () => {
     });
   }
 
-  useEffect(loadDataModal, [searchTermYear]);
+  useEffect(loadDataModal, [searchTermYear, searchTermMonth]);
 
   const fieldsC1 = [
     {
@@ -443,6 +444,16 @@ const TeacherList = () => {
     year.push({idEnable:index, subject:index})
   }
 
+  const monthsValues= [
+    'Enero', 'Febrero', 'Marzo', 
+    'Abril', 'Mayo', 'Junio', 
+    'Julio', 'Agosto', 'Septiembre', 
+    'Octubre', 'Noviembre', 'Diciembre'];
+    const months = [{idEnable:'no', subject:'Todos'}];
+    for (let index = 0; index < 12; index++) {
+      months.push({idEnable:monthsValues[index], subject:monthsValues[index]})
+    }
+
   const tableRef = useRef(null);
     const currentDate = new Date();
     const formattedDate = format(currentDate, "MMMM dd, yyyy", { locale: es });
@@ -464,14 +475,15 @@ const TeacherList = () => {
         doc.setFontSize(20);
         doc.setTextColor(17, 45, 94);
         doc.setFont('Helvetica');
-        doc.text('Reporte de asignaciones por año', 58, 45);
+        doc.text('Reporte de asignaciones ', 58, 45);
         doc.setFontSize(14);
         doc.setTextColor(39, 103, 158);
         doc.text(`Año: ${searchTermYear==='0'?'Todos':`${searchTermYear}`}`,20,60);
+        doc.text(`Mes: ${searchTermMonth==='no'?'Todos':`${searchTermMonth}`}`,20,70);
         doc.setLineWidth(0.5);
         doc.setDrawColor(39, 103, 158);
-        const startY = 70;
-        const endY = 70;
+        const startY = 80;
+        const endY = 80;
         const tableWidth = doc.internal.pageSize.width - 25;
         doc.line(12, startY, tableWidth, endY);
 
@@ -479,7 +491,7 @@ const TeacherList = () => {
 
             doc.autoTable({
                 html: tableRef.current,
-                startY: 70,
+                startY: 80,
                 theme: 'plain',
                 headStyles: {
                     textColor: [39, 103, 158],
@@ -617,7 +629,7 @@ const TeacherList = () => {
             </p>
             <div className={classes.options}>
                 <Search 
-                  label={"Buscar año"} 
+                  label={"Buscar por año"} 
                   text={"Buscar"} 
                   onSearch={setSearchTermYear} 
                   type={'select'} 
@@ -625,9 +637,19 @@ const TeacherList = () => {
                   values={year}
                   placeholder={'Buscar por año'}
                 />
-                <div>
-                    <ButtonSM icon={reportIcon} text={"Generar reporte"} className={classes.iconButton} onClick={()=>{handleGenerateReport()}} />
-                </div>
+                <Search 
+                  label={"Buscar por mes"} 
+                  text={"Buscar"} 
+                  onSearch={setSearchTermMonth} 
+                  type={'select'} 
+                  value={searchTermMonth}
+                  values={months}
+                  placeholder={'Buscar por mes'}
+                />
+                
+            </div>
+            <div className={classes.buttonReport}>
+                <ButtonSM icon={reportIcon} text={"Generar reporte"} className={classes.iconButton} onClick={()=>{handleGenerateReport()}} />
             </div>
             <div className={modalClasses.tableModal}>
               <Table

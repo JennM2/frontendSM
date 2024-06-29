@@ -349,7 +349,7 @@ const Admins = () => {
         <div className={modalClasses.under}></div>
         <div className={modalClasses.container}>
           <div className={modalClasses.content}>
-            <p>EDITAR SECRETARIO</p>
+            <p>EDITAR ADMINISTRADOR</p>
             <div className={modalClasses.containerInputs}>
               <DynamicInputs
                 fields={fieldsC1}

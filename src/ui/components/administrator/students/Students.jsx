@@ -549,7 +549,7 @@ const Students = () => {
                 <Credentials
                   nameUser={editingRow.user}
                   onUserChange={setUserStudent}
-                  onPasswordChange={e=>{setEditingRow({...editingRow, password:e})}}
+                  onPasswordChange={setPasswordStudent}
                 />
               </div>
               <div className={classes.container}>

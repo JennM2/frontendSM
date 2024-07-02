@@ -21,7 +21,7 @@ const History = () => {
   const classes = useStyle();
   const studentClasses = studentStyle();
 
-  const columns = ["N°", "Materia", "Gestion", "Nota Final"];
+  const columns = ["N°", "Materia", "Gestion", "Nota Final", "Observacion"];
   const [data, setData] = useState([]);
   const [average, setAverage] = useState(0);
 
@@ -141,7 +141,8 @@ const History = () => {
                   index + 1,
                   item.subject,
                   item.month,
-                  item.final
+                  item.final,
+                  item.obs
                 ])}
                 columnAction={"Accin"}
                 columnIcon={"Acción"}

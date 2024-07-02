@@ -428,11 +428,7 @@ const [editableCell, setEditableCell] = useState(null);
             <hr className={subjectsClasses.lineTitle} />
           </div>
           <div className={classes.buttonSubjects}>
-            <Button
-              icon={updateIcon}
-              text={"Actualizar"}
-              className={classes.icons}
-            />
+            
           </div>
           <div className={classes.subjectsTable}>
             <Table

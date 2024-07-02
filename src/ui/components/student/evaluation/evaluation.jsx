@@ -67,6 +67,7 @@ const Evaluation = () => {
       enqueueSnackbar('Evaluado',{variant:'success'});
       loadData();
       setModalEvaluation(false);
+      setQuestionValues({});
     }).catch(error=>{
       enqueueSnackbar(error.response.data.message,{variant:'warning'});
     })

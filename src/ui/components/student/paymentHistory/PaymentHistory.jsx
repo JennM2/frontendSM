@@ -18,12 +18,14 @@ const PaymentHitory = () => {
   const classes = useStyles();
   const studentClasses = studentsStyles();
 
-  const columns = ["Materia", "Gestion", "Fecha de pago", "Estado de pago"];
+  const columns = ["Materia", "Gestion", "Fecha de pago", "Monto", "Estado de pago"];
   const [data, setData] = useState([]);
 
   const loadData = () => {
     Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/payments/${token.idStudent}`).then((response)=>{
       setData(response.data);
+      console.log(response.data);
+
     }).catch(error=>{
       console.log(error)
     })
@@ -98,7 +100,7 @@ const PaymentHitory = () => {
       <div className={classes.tableHistory}>
         <Table 
           columns={columns} 
-          data={data.map(item=>[item.subject, item.month, item.datePay.slice(0,10), item.statePay])} 
+          data={data.map(item=>[item.subject, item.month, item.datePay.slice(0,10), item.amount, item.statePay])} 
           tableRef={tableRef}
         />
       </div>

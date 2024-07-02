@@ -217,7 +217,7 @@ const useStyles = makeStyles ((theme) => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        marginTop: "7vh",
+        marginTop: "15vh",
     },
     tableDetail: {
         width: "80%",

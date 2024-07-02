@@ -640,7 +640,7 @@ const SubjectsCareers = () => {
           <hr className={adminClasses.lineTitle} />
         </div>
         <div className={classes.studentsTop}>
-          <Search text={"Matrícula"} onSearch={setSearchTerm} />
+          <Search text={"Codigo"} onSearch={setSearchTerm} />
           <div className={classes.buttonNewStudent}>
             <ButtonSM
               icon={newStudent}

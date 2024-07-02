@@ -46,7 +46,7 @@ const Students = () => {
   const [toogles, setToogles] = useState([]);
 
   const columnsQualified = ['N°', 'Materia', 'Gestion', 'P1', 'P2', 'P3', 'Prom. Parcial', 'Practicas', 'Examen Final', 'Nota Final'];
-  const columnsHistory = ['N°', 'Materia', 'Gestion', 'Nota Final'];
+  const columnsHistory = ['N°', 'Materia', 'Gestion', 'Nota Final', 'Observacion'];
 
   const newStudentObject = {
     matricula:"",
@@ -158,7 +158,7 @@ const Students = () => {
     },
     { label: "CI", placeholder: "", type: "text", id: "ci" },
     { label: "Teléfono", placeholder: "", type: "text", id: "phone" },
-    { label: "Carrera:", placeholder: "", type:"select", id:'career', options:dataCarrera}
+    { label: "Carrera", placeholder: "", type:"select", id:'career', options:dataCarrera}
   ];
 
   const handleNew = () => {
@@ -685,7 +685,8 @@ const Students = () => {
                       index + 1,
                       item.subject,
                       item.month,
-                      item.final
+                      item.final,
+                      item.obs
                   ])}
                   className2={classes.tableQualified}
                   tableRef={tableRef}

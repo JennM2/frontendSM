@@ -14,14 +14,19 @@ const Backups = () => {
     const adminClasses = adminStyles();
     const classes = useStyles();
     const [monthlyChecked, setMonthlyChecked] = useState(true);
+    const [valueRule, setValueRule] = useState('');
     const [data, setData] = useState([]);
 
 
     const columns = ['ID', 'Nombre', 'Fecha', 'Tamaño'];
     
     const handleChangeCheck = () => {
-        setMonthlyChecked(!monthlyChecked)
-        Axios.post(`${process.env.REACT_APP_SERVER_HOST}/api/admin/taskBackup`,{monthly:monthlyChecked}).then(()=>{
+        setMonthlyChecked(!monthlyChecked);
+        setValueRule('');
+    }
+
+    const handleSaveChange = () => {
+        Axios.post(`${process.env.REACT_APP_SERVER_HOST}/api/admin/taskBackup`,{monthly:monthlyChecked, value:valueRule}).then(()=>{
             enqueueSnackbar('Reprogramado',{variant:'success'})
         }).catch(err=>{
             console.log(err);
@@ -40,15 +45,28 @@ const Backups = () => {
     }
 
     const loadData = () => {
-        Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/admin/allBacku`).then(response => {
-            console.log(response.data);
+        Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/admin/allBackup`).then(response => {
             setData(response.data);
+        }).catch(err=>{
+            console.log(err);
+        })
+
+        Axios.get(`${process.env.REACT_APP_SERVER_HOST}/api/admin/configBack`).then(response => {
+            console.log(response.data)
+            setMonthlyChecked(response.data.monthly);
+            setValueRule(response.data.value);
         }).catch(err=>{
             console.log(err);
         })
     }
 
     useEffect(loadData,[]);
+
+    const days = []
+    for (let index = 1; index <= 30; index++) {
+        days.push(index);
+    }
+    const dayOfWeek = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
 
     return(
         <div className={adminClasses.content} >
@@ -66,9 +84,36 @@ const Backups = () => {
                                 <label className={classes.labelCheck} for="monthly">Mensual</label>
                             </div>
                             <div className={classes.check}>
-                                <input type="radio" id="monthly" name="weekly" value="weekly" checked={!monthlyChecked} onChange={handleChangeCheck}/>
+                                <input type="radio" id="monthly" name="monthly" value="monthly" checked={!monthlyChecked} onChange={handleChangeCheck}/>
                                 <label className={classes.labelCheck} for="weekly">Semanal</label>
                             </div>
+                        </div>
+                        <div className={classes.selectArea}>
+                            {monthlyChecked?
+                            <select
+                                value={valueRule}
+                                onChange={(e)=>{setValueRule(e.target.value)}}
+                                className={classes.selectMonth}
+                            >
+                                <option>Seleccione el dia</option>
+                                {days.map((item, index)=>{
+                                    return <option value={item} key={index}>{item}</option>
+                                })}
+                            </select>
+                            :
+                            <select
+                                value={valueRule}
+                                onChange={(e)=>{setValueRule(e.target.value)}}
+                                className={classes.selectWeek}
+                            >
+                                <option>Seleccione el dia</option>
+                                {dayOfWeek.map((item, index)=>{
+                                    return <option value={item} key={index}>{item}</option>
+                                })}
+                            </select>}
+                        </div>
+                        <div className={classes.buttonSave}>
+                            <ButtonSM text={"Programar"} className={classes.iconProgram} onClick={handleSaveChange}/>
                         </div>
                     </div>
                     <div className={classes.buttonProgram}>

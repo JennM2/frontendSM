@@ -7,7 +7,6 @@ const useStyles = makeStyles((theme) => ({
     },
     contentProgram:{
         width:"90%",
-        height:"100%",
         display: 'flex',
         alignItems: 'center',
         margin:"3vh 0vw 3vh 0vw",
@@ -17,8 +16,6 @@ const useStyles = makeStyles((theme) => ({
     programTime:{
         display: 'flex',
         flexDirection: 'column',
-        height:"15vh",
-
     },
     program:{
         display: 'flex',
@@ -60,6 +57,29 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "center",
         margin:"2vh 0vw 0vh 10.5vw",
 
+    },
+    selectArea:{
+        position:'relative',
+    },
+    selectMonth: {
+        height: "5vh",
+        width: "50%",
+        borderRadius: "1vw",
+        marginLeft:'10vw',
+        marginTop:'1vh'
+    },
+    selectWeek: {
+        height: "5vh",
+        width: "50%",
+        borderRadius: "1vw",
+        marginLeft:'20vw',
+        marginTop:'1vh'
+    },
+    buttonSave : {
+        width:"15vw",
+        height: "7vh",
+        marginLeft:"10vw",
+        marginTop:'1vh'
     }
 
 }));

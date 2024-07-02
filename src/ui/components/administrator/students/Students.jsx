@@ -349,7 +349,7 @@ const Students = () => {
         doc.setFontSize(20);
         doc.setTextColor(17, 45, 94);
         doc.setFont('Helvetica');
-        doc.text('Historial academico', 78, 45);
+        doc.text('Historial academico ', 78, 45);
         doc.setFontSize(14);
         doc.setTextColor(39, 103, 158);
         doc.text(`Estudiante: ${(nameStudent.patern + ' ' + nameStudent.matern + ' ' + nameStudent.names) }`,20,55);

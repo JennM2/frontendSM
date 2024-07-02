@@ -16,7 +16,6 @@ import logo from "../../../../assets/images/logoSMpdf.png";
 import poppins from "../../../../assets/fonts/Poppins-Regular.ttf";
 import list from "../../../../assets/icons/generatelist.svg";
 import qualification from "../../../../assets/icons/qualification.svg";
-import updateIcon from "../../../../assets/icons/editLight.svg";
 import upload from "../../../../assets/icons/top.svg";
 import report from "../../../../assets/icons/reports.svg";
 import save from "../../../../assets/icons/save.svg";

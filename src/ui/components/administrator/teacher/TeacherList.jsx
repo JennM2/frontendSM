@@ -420,7 +420,8 @@ const TeacherList = () => {
 
       const newAssign = {
         idTeacher : assignId,
-        subjectName : selectedSubject
+        subjectName : selectedSubject,
+        carName : selectedCareer
       }
       Axios.post(`${process.env.REACT_APP_SERVER_HOST}/api/subjectTeacher`,newAssign).then(()=>{
         enqueueSnackbar('Asignado',{variant:'success'});

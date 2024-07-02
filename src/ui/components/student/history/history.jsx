@@ -140,12 +140,9 @@ const History = () => {
                 data={data.map((item ,index)=>[
                   index + 1,
                   item.subject,
-                  item.schedule,
-                  item.group,
-                  item.nameTeacher,
-                  item.dateStart.slice(0,10),
-                  item.dateEnd.slice(0,10),
-                  item.idEnable])}
+                  item.month,
+                  item.final
+                ])}
                 columnAction={"Accin"}
                 columnIcon={"Acción"}
                 textLink={"Programar"}

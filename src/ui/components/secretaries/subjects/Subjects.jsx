@@ -134,7 +134,7 @@ const Subjects = () => {
     useEffect(()=>{
 
         Axios.get(
-            `${process.env.REACT_APP_SERVER_HOST}/api/subjectTeacher/subjectTeacher/${subject || 'default'}`
+            `${process.env.REACT_APP_SERVER_HOST}/api/subjectTeacher/subjectTeacher/${subject || 'default'}/${career || 'default'}`
           )
             .then((response) => {
               setTeachers(response.data);
@@ -265,10 +265,10 @@ const Subjects = () => {
         })
     }
 
-    const handleOpenStudentList = async(rowId) => {
-        const idEnable = data[rowId][11];
-        setSubjectList(`${data[rowId][1]} - ${data[rowId][7]}`);
-        loadDataStudents(idEnable);
+    const handleOpenStudentList = async(rowId, idSpecific, id) => {
+        const row = data.find(item=>item[13] === idSpecific);
+        setSubjectList(`${row[1]} - ${row[7]}`);
+        loadDataStudents(idSpecific);
         setOpenModalStudentList(!openModalStudentList);
     };
 
